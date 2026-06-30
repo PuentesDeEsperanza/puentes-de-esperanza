@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sumate como voluntario · Puentes de Esperanza</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body data-page="voluntarios">
+
+  <div id="header-root"></div>
+  <div id="hero-root"></div>
+
+  <div class="page-content">
+    <div class="container">
+
+      <h2 class="section-title">¿En qué podés ayudar?</h2>
+      <p class="section-sub">Buscamos personas con distintas habilidades. Elegí lo que más se parezca a vos.</p>
+
+      <div id="areas-grid-root" style="margin-bottom:48px;"></div>
+
+      <div class="form-card">
+        <h2 class="section-title" style="text-align:center;">Formulario de inscripción</h2>
+        <p class="section-sub" style="text-align:center; margin-left:auto; margin-right:auto;">Te contactamos en menos de 48hs.</p>
+
+        <form id="volunteerForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="volName">Nombre completo</label>
+              <input type="text" id="volName" placeholder="Tu nombre" required>
+            </div>
+            <div class="form-group">
+              <label for="volEmail">Email</label>
+              <input type="email" id="volEmail" placeholder="tu@email.com" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="volPhone">WhatsApp</label>
+              <input type="tel" id="volPhone" placeholder="+54 9 11 ..." required>
+            </div>
+            <div class="form-group">
+              <label for="volCity">Ciudad</label>
+              <input type="text" id="volCity" placeholder="San Miguel, Buenos Aires" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="volArea">¿En qué área querés colaborar?</label>
+            <select id="volArea" required>
+              <option value="">Elegí un área</option>
+              <option>Logística</option>
+              <option>Comunicación</option>
+              <option>Contención</option>
+              <option>Tecnología</option>
+              <option>Transporte</option>
+              <option>Administración</option>
+              <option>Otra</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="volMessage">Contanos un poco más sobre vos (opcional)</label>
+            <textarea id="volMessage" placeholder="Disponibilidad, experiencia previa, lo que quieras compartir..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">🙋 Quiero sumarme</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="footer-root"></div>
+
+  <script type="module">
+    import { renderLayout } from "../js/header.js";
+    import { initForms } from "../js/home.js";
+    import { PageHero, CardGrid, VOLUNTEER_AREAS } from "../js/site.js";
+
+    renderLayout({ activeKey: "voluntarios", basePath: ".." });
+
+    document.getElementById("hero-root").outerHTML = PageHero({
+      title: "Sumate como voluntario",
+      subtitle: "No hace falta dinero. Hace falta tiempo, ganas y corazón.",
+    });
+
+    const cards = VOLUNTEER_AREAS.map(
+      (a) => `
+        <div class="card">
+          <div class="card-icon ${a.bg}">${a.icon}</div>
+          <h3>${a.title}</h3>
+          <p>${a.desc}</p>
+        </div>`
+    );
+    document.getElementById("areas-grid-root").outerHTML = CardGrid(cards, { id: "areas-grid-root", style: "margin-bottom:48px;" });
+
+    initForms();
+  </script>
+</body>
+</html>

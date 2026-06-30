@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donaciones · Puentes de Esperanza</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body data-page="donaciones">
+
+  <div id="header-root"></div>
+  <div id="hero-root"></div>
+
+  <div class="page-content">
+    <div class="container">
+
+      <div class="form-card">
+        <h2 class="section-title" style="text-align:center;">Elegí un monto</h2>
+        <p class="section-sub" style="text-align:center; margin-left:auto; margin-right:auto;">Donación única en pesos argentinos (ARS)</p>
+
+        <div id="amount-selector-root"></div>
+
+        <form id="donationForm">
+          <div class="form-group">
+            <label for="customAmount">O ingresá otro monto</label>
+            <input type="number" id="customAmount" placeholder="5000" min="100">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="donorName">Nombre</label>
+              <input type="text" id="donorName" placeholder="Tu nombre" required>
+            </div>
+            <div class="form-group">
+              <label for="donorEmail">Email</label>
+              <input type="email" id="donorEmail" placeholder="tu@email.com" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="donorMessage">Mensaje (opcional)</label>
+            <textarea id="donorMessage" placeholder="Dejá un mensaje de aliento..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">❤️ Confirmar donación</button>
+        </form>
+      </div>
+
+      <h2 class="section-title" style="margin-top:56px;">Otras formas de donar</h2>
+      <p class="section-sub">Si estás en Venezuela o preferís otro medio, tenemos opciones para vos.</p>
+
+      <div id="other-ways-root"></div>
+
+    </div>
+  </div>
+
+  <div id="footer-root"></div>
+
+  <script type="module">
+    import { renderLayout } from "../js/header.js";
+    import { initForms } from "../js/home.js";
+    import { PageHero, CardGrid, DonationAmountSelector, DONATION_AMOUNTS, OTHER_DONATION_WAYS } from "../js/site.js";
+
+    renderLayout({ activeKey: "donaciones", basePath: ".." });
+
+    document.getElementById("hero-root").outerHTML = PageHero({
+      title: "Hacé tu donación",
+      subtitle: "Cada aporte, grande o chico, se convierte en ayuda real para una familia.",
+    });
+
+    document.getElementById("amount-selector-root").outerHTML =
+      DonationAmountSelector(DONATION_AMOUNTS, { id: "amount-selector-root" });
+
+    const cards = OTHER_DONATION_WAYS.map(
+      (w) => `
+        <div class="card">
+          <div class="card-icon ${w.bg}">${w.icon}</div>
+          <h3>${w.title}</h3>
+          <p>${w.desc}</p>
+        </div>`
+    );
+    document.getElementById("other-ways-root").outerHTML = CardGrid(cards, { id: "other-ways-root" });
+
+    initForms();
+  </script>
+</body>
+</html>

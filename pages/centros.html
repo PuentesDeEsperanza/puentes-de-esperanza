@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Centros de acopio · Puentes de Esperanza</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body data-page="centros">
+
+  <div id="header-root"></div>
+  <div id="hero-root"></div>
+
+  <div class="page-content">
+    <div class="container">
+
+      <div class="map-placeholder" style="margin-bottom:40px;">
+        <div class="map-icon">🗺️</div>
+        <h3>Mapa interactivo próximamente</h3>
+        <p>En cuanto tengamos centros verificados, vas a poder ubicarlos acá.</p>
+      </div>
+
+      <h2 class="section-title">Centros disponibles</h2>
+      <p class="section-sub">Solo publicamos centros confirmados por un voluntario u organización aliada. Nada de esta lista es información de ejemplo.</p>
+
+      <!-- Se completa dinámicamente: estado vacío si no hay centros cargados,
+           o la grilla de tarjetas si COLLECTION_CENTERS tiene datos reales. -->
+      <div id="centers-section-root"></div>
+
+      <div style="text-align:center; margin-top:32px;">
+        <a href="voluntarios.html" class="btn btn-primary btn-lg" id="suggest-center-btn">📍 Sugerir un centro</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="footer-root"></div>
+
+  <script type="module">
+    import { renderLayout } from "../js/header.js";
+    import { PageHero, CardGrid, COLLECTION_CENTERS } from "../js/site.js";
+
+    renderLayout({ activeKey: "centros", basePath: ".." });
+
+    document.getElementById("hero-root").outerHTML = PageHero({
+      title: "Centros de acopio",
+      subtitle: "Acercá tu donación al punto más cercano. Verificá horarios antes de ir.",
+    });
+
+    const sectionRoot = document.getElementById("centers-section-root");
+
+    if (COLLECTION_CENTERS.length === 0) {
+      // Estado vacío: todavía no hay centros verificados publicados.
+      sectionRoot.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">📍</div>
+          <h3>Los primeros centros verificados se publicarán próximamente</h3>
+          <p>Estamos confirmando ubicaciones, horarios e insumos que recibe cada punto antes de publicarlos, para que la información que veas acá sea siempre real.</p>
+        </div>`;
+    } else {
+      // Hay datos reales cargados: se renderiza la grilla normalmente.
+      const cards = COLLECTION_CENTERS.map(
+        (c) => `
+        <div class="card">
+          <div class="card-icon bg-blue">📍</div>
+          <h3>${c.name}</h3>
+          <p>${c.address}<br>
+          🕐 ${c.hours}<br>
+          📦 Recibe: ${c.accepts}</p>
+        </div>`
+      );
+      sectionRoot.outerHTML = CardGrid(cards, { id: "centers-section-root" });
+    }
+  </script>
+</body>
+</html>

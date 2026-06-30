@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cómo ayudar · Puentes de Esperanza</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body data-page="como-ayudar">
+
+  <div id="header-root"></div>
+  <div id="hero-root"></div>
+
+  <div class="page-content">
+    <div class="container">
+      <div id="ways-grid-root" style="margin-bottom:48px;"></div>
+
+      <h2 class="section-title">Preguntas frecuentes</h2>
+      <p class="section-sub">Lo que más nos preguntan sobre cómo funciona la ayuda.</p>
+      <div id="faq-root"></div>
+    </div>
+  </div>
+
+  <div id="footer-root"></div>
+
+  <script type="module">
+    import { renderLayout } from "../js/header.js";
+    import { initForms } from "../js/home.js";
+    import { PageHero, CardGrid, FAQAccordion, HELP_WAYS } from "../js/site.js";
+
+    renderLayout({ activeKey: "como-ayudar", basePath: ".." });
+
+    document.getElementById("hero-root").outerHTML = PageHero({
+      title: "¿Cómo podés ayudar?",
+      subtitle: "Hay muchas formas de sumar tu granito de arena. Elegí la que mejor se adapte a vos.",
+    });
+
+    const cards = HELP_WAYS.map((item) => {
+      const tag = item.href ? "a" : "div";
+      const hrefAttr = item.href ? `href="${item.href}"` : "";
+      return `
+        <${tag} ${hrefAttr} class="card">
+          <div class="card-icon ${item.bg}">${item.icon}</div>
+          <h3>${item.title}</h3>
+          <p>${item.desc}</p>
+        </${tag}>`;
+    });
+    document.getElementById("ways-grid-root").outerHTML = CardGrid(cards, { id: "ways-grid-root", style: "margin-bottom:48px;" });
+    document.getElementById("faq-root").outerHTML = FAQAccordion({ id: "faq-root" });
+
+    initForms();
+  </script>
+</body>
+</html>

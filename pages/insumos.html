@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lista de insumos · Puentes de Esperanza</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body data-page="insumos">
+
+  <div id="header-root"></div>
+  <div id="hero-root"></div>
+
+  <div class="page-content">
+    <div class="container">
+
+      <div class="verified-banner" style="margin-bottom:32px;">
+        <span class="verified-icon">🔄</span>
+        <p>Última actualización: esta semana. Antes de llevar tu donación, revisá qué se necesita con más urgencia.</p>
+      </div>
+
+      <h2 class="section-title">Insumos necesarios</h2>
+      <p class="section-sub">Por favor, donar productos sin abrir y dentro de su fecha de vencimiento.</p>
+
+      <div style="overflow-x:auto;">
+        <table class="insumos-table">
+          <thead><tr><th>Insumo</th><th>Categoría</th><th>Prioridad</th></tr></thead>
+          <tbody id="supplies-tbody"></tbody>
+        </table>
+      </div>
+
+      <div style="text-align:center; margin-top:40px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+        <a href="centros.html" class="btn btn-primary btn-lg">📍 Ver centros de acopio</a>
+        <a href="donaciones.html" class="btn btn-outline btn-lg">❤️ Prefiero donar dinero</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="footer-root"></div>
+
+  <script type="module">
+    import { renderLayout } from "../js/header.js";
+    import { PageHero, SUPPLY_ITEMS, PRIORITY_LABELS } from "../js/site.js";
+
+    renderLayout({ activeKey: "insumos", basePath: ".." });
+
+    document.getElementById("hero-root").outerHTML = PageHero({
+      title: "Lista de insumos",
+      subtitle: "Actualizamos esta lista cada semana según las necesidades reales de las familias que acompañamos.",
+    });
+
+    document.getElementById("supplies-tbody").innerHTML = SUPPLY_ITEMS.map((item) => {
+      const p = PRIORITY_LABELS[item.priority];
+      return `
+            <tr>
+              <td>${item.name}</td>
+              <td>${item.category}</td>
+              <td><span class="badge ${p.className}">${p.label}</span></td>
+            </tr>`;
+    }).join("");
+  </script>
+</body>
+</html>
